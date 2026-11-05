@@ -32,6 +32,7 @@
             lblQuestion = new Label();
             txtAnswer = new TextBox();
             btnSubmit = new Button();
+            btnRestart = new Button();
             SuspendLayout();
             // 
             // lblMessage
@@ -69,11 +70,22 @@
             btnSubmit.UseVisualStyleBackColor = true;
             btnSubmit.Click += btnSubmit_Click;
             // 
+            // btnRestart
+            // 
+            btnRestart.Location = new Point(495, 241);
+            btnRestart.Name = "btnRestart";
+            btnRestart.Size = new Size(94, 29);
+            btnRestart.TabIndex = 4;
+            btnRestart.Text = "Restart";
+            btnRestart.UseVisualStyleBackColor = true;
+            btnRestart.Click += btnRestart_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(btnRestart);
             Controls.Add(btnSubmit);
             Controls.Add(txtAnswer);
             Controls.Add(lblQuestion);
@@ -90,5 +102,6 @@
         private Label lblQuestion;
         private TextBox txtAnswer;
         private Button btnSubmit;
+        private Button btnRestart;
     }
 }

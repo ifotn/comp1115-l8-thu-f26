@@ -35,7 +35,8 @@ namespace COMP1115Lesson8Thu
         private void btnSubmit_Click(object sender, EventArgs e)
         {
             // does user answer match the answer value for current question
-            if (txtAnswer.Text == questions[currentQuestion, 1])
+            // use ToLower to compare both strings all lowercase
+            if (txtAnswer.Text.ToLower() == questions[currentQuestion, 1].ToLower())
             {
                 lblMessage.Text = "Correct";
                 lblMessage.ForeColor = Color.Green;
@@ -63,8 +64,25 @@ namespace COMP1115Lesson8Thu
                 btnSubmit.Enabled = false;
                 lblQuestion.Text = $"Correct Answers: {correctAnswers}";
             }
-           
-            txtAnswer.Text = "";  
+
+            txtAnswer.Text = "";
+        }
+
+        private void btnRestart_Click(object sender, EventArgs e)
+        {
+            // reset questions to start of array
+            currentQuestion = 0;
+
+            // reset score
+            correctAnswers = 0;
+
+            // update UI
+            lblMessage.Text = "Enter your answer to start";
+            lblMessage.ForeColor = Color.Black;
+
+            lblQuestion.Text = questions[0, 0];
+
+            btnSubmit.Enabled = true;
         }
     }
 }
