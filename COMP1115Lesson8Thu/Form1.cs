@@ -15,12 +15,19 @@ namespace COMP1115Lesson8Thu
 
         int currentQuestion = 0;
         int correctAnswers = 0;
+        bool isDark = false;
 
         public Form1()
         {
             InitializeComponent();
+            LoadQuestions();            
+        }
 
-            // populate question & answer array
+        /// <summary>
+        /// populate array of questions & answers, show 1st question
+        /// </summary>
+        private void LoadQuestions()
+        {
             questions[0, 0] = "What is 2+2?";
             questions[0, 1] = "4";
             questions[1, 0] = "What day is our class?";
@@ -28,9 +35,29 @@ namespace COMP1115Lesson8Thu
             questions[2, 0] = "What language are we using?";
             questions[2, 1] = "C#";
 
-            // ask 1st question
-            lblQuestion.Text = questions[0, 0];
+            // show 1st question
+            ShowQuestion(0);
         }
+
+        /// <summary>
+        /// display question
+        /// </summary>
+        /// <param name="index">position in array of current question</param>
+        private void ShowQuestion(int index)
+        {
+            lblQuestion.Text = questions[index, 0];
+        }
+
+        /// <summary>
+        /// show message in response to user answer
+        /// </summary>
+        /// <param name="text">message to display</param>
+        /// <param name="colour">text colour to use</param>
+        private void ShowMessage(string text, Color colour)
+        {
+            lblMessage.Text = text;
+            lblMessage.ForeColor = colour;
+        } 
 
         private void btnSubmit_Click(object sender, EventArgs e)
         {
@@ -38,16 +65,13 @@ namespace COMP1115Lesson8Thu
             // use ToLower to compare both strings all lowercase
             if (txtAnswer.Text.ToLower() == questions[currentQuestion, 1].ToLower())
             {
-                lblMessage.Text = "Correct";
-                lblMessage.ForeColor = Color.Green;
-
+                ShowMessage("Correct", Color.Green);
                 // add 1 to user's score
                 correctAnswers++;
             }
             else
             {
-                lblMessage.Text = "Incorrect";
-                lblMessage.ForeColor = Color.Red;
+               ShowMessage("Incorrect", Color.Red);
             }
 
             // move to next question
@@ -56,7 +80,7 @@ namespace COMP1115Lesson8Thu
             // if there are more questions, show next question
             if (currentQuestion < questions.GetLength(0))
             {
-                lblQuestion.Text = questions[currentQuestion, 0];
+                ShowQuestion(currentQuestion);
             }
             else
             {
@@ -77,12 +101,42 @@ namespace COMP1115Lesson8Thu
             correctAnswers = 0;
 
             // update UI
-            lblMessage.Text = "Enter your answer to start";
-            lblMessage.ForeColor = Color.Black;
-
-            lblQuestion.Text = questions[0, 0];
+            ShowMessage("Enter your answer to start", Color.Black);
+            ShowQuestion(0);
 
             btnSubmit.Enabled = true;
+        }
+
+        private void btnTheme_Click(object sender, EventArgs e)
+        {
+            if (isDark == true)
+            {
+                BackColor = Color.Black;
+                lblMessage.ForeColor = Color.White;
+                lblQuestion.ForeColor = Color.White;
+                txtAnswer.BackColor = Color.DimGray;
+                btnSubmit.BackColor = Color.DarkSlateGray;
+                btnSubmit.ForeColor = Color.White;
+                btnRestart.BackColor = Color.DarkSlateGray;
+                btnRestart.ForeColor = Color.White;
+                btnTheme.BackColor = Color.DarkSlateGray;
+                btnTheme.ForeColor = Color.White;
+                isDark = false;
+            }
+            else
+            {
+                BackColor = Color.White;
+                lblMessage.ForeColor = Color.Black;
+                lblQuestion.ForeColor = Color.Black;
+                txtAnswer.BackColor = Color.White;
+                btnSubmit.BackColor = Color.DimGray;
+                btnSubmit.ForeColor = Color.White;
+                btnRestart.BackColor = Color.DimGray;
+                btnRestart.ForeColor = Color.White;
+                btnTheme.BackColor = Color.DimGray;
+                btnTheme.ForeColor = Color.White;
+                isDark = true;
+            }
         }
     }
 }

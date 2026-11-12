@@ -33,6 +33,7 @@
             txtAnswer = new TextBox();
             btnSubmit = new Button();
             btnRestart = new Button();
+            btnTheme = new Button();
             SuspendLayout();
             // 
             // lblMessage
@@ -80,11 +81,22 @@
             btnRestart.UseVisualStyleBackColor = true;
             btnRestart.Click += btnRestart_Click;
             // 
+            // btnTheme
+            // 
+            btnTheme.Location = new Point(627, 241);
+            btnTheme.Name = "btnTheme";
+            btnTheme.Size = new Size(125, 29);
+            btnTheme.TabIndex = 5;
+            btnTheme.Text = "Toggle Theme";
+            btnTheme.UseVisualStyleBackColor = true;
+            btnTheme.Click += btnTheme_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(btnTheme);
             Controls.Add(btnRestart);
             Controls.Add(btnSubmit);
             Controls.Add(txtAnswer);
@@ -103,5 +115,6 @@
         private TextBox txtAnswer;
         private Button btnSubmit;
         private Button btnRestart;
+        private Button btnTheme;
     }
 }
