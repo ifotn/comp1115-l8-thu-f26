@@ -11,7 +11,7 @@ namespace COMP1115Lesson8Thu
     public partial class Form1 : Form
     {
         // create array of questions & answers
-        string[,] questions = new string[3, 2];
+        string[,] questions = new string[5, 2];
 
         int currentQuestion = 0;
         int correctAnswers = 0;
@@ -34,6 +34,10 @@ namespace COMP1115Lesson8Thu
             questions[1, 1] = "Thursday";
             questions[2, 0] = "What language are we using?";
             questions[2, 1] = "C#";
+            questions[3, 0] = "What's the capital of Denmark?";
+            questions[3, 1] = "Copenhagen";
+            questions[4, 0] = "What's 'Mardi Gras' in English?";
+            questions[4, 1] = "Fat Tuesday";
 
             // show 1st question
             ShowQuestion(0);
@@ -57,10 +61,91 @@ namespace COMP1115Lesson8Thu
         {
             lblMessage.Text = text;
             lblMessage.ForeColor = colour;
-        } 
+        }
+
+        /// <summary>
+        /// show % of correct answers
+        /// </summary>
+        /// <param name="correct"># correct answers</param>
+        /// <param name="total"># of total questions</param>
+        /// <returns>% w/o decimals</returns>
+        private int GetPercentScore(int correct, int total)
+        {
+            if (total == 0)
+            {
+                return 0;
+            }
+            return correct * 100 / total;
+        }
+
+        /// <summary>
+        /// determine letter grade based on % correct
+        /// </summary>
+        /// <param name="percent">correct %</param>
+        /// <returns>letter grade</returns>
+        private string GetGrade(int percent)
+        {
+            if (percent >= 90)
+            {
+                return "A";
+            }
+            else if (percent >= 80)
+            {
+                return "B";
+            }
+            else if (percent >= 70)
+            {
+                return "C";
+            }
+            else if (percent >= 60)
+            {
+                return "D";
+            }
+            else 
+            {
+                return "F";
+            }
+        }
 
         private void btnSubmit_Click(object sender, EventArgs e)
         {
+            try
+            {
+                // check for empty or all spaces answer
+                if (String.IsNullOrWhiteSpace(txtAnswer.Text))
+                {
+                    ShowMessage("Please enter an answer", Color.Red);
+                    txtAnswer.Focus();
+                    return;
+                }
+
+                // validate 1st answer as int since 1st answer is numeric
+                int answer = int.Parse(txtAnswer.Text);
+
+                if (answer == int.Parse(questions[currentQuestion, 1]))
+                {
+                    ShowMessage("Correct", Color.Green);
+                    correctAnswers++;
+                }
+                else
+                {
+                    // user entered a number but not the correct answer
+                    ShowMessage("Incorrect", Color.Red);
+                }
+            }
+            catch (FormatException)
+            {
+                ShowMessage("Enter a whole number", Color.Red);
+                txtAnswer.Focus();  // what does Focus() do?
+                return; // don't do anything else in this method
+            }
+            catch (OverflowException)
+            {
+                ShowMessage("Input too large or too small", Color.Red);
+                txtAnswer.Focus();
+                return;
+            }
+
             // does user answer match the answer value for current question
             // use ToLower to compare both strings all lowercase
             if (txtAnswer.Text.ToLower() == questions[currentQuestion, 1].ToLower())
@@ -84,12 +169,23 @@ namespace COMP1115Lesson8Thu
             }
             else
             {
-                // disable Submit button as user has finished
-                btnSubmit.Enabled = false;
-                lblQuestion.Text = $"Correct Answers: {correctAnswers}";
+                FinishQuiz();
             }
 
             txtAnswer.Text = "";
+        }
+
+        /// <summary>
+        /// show result and prevent re-submission
+        /// </summary>
+        private void FinishQuiz()
+        {
+            // disable Submit button as user has finished
+            btnSubmit.Enabled = false;
+            //lblQuestion.Text = $"Correct Answers: {correctAnswers}";
+            int percent = GetPercentScore(correctAnswers, questions.GetLength(0));
+            string letterGrade = GetGrade(percent);
+            lblQuestion.Text = $"Score: {correctAnswers}/{questions.GetLength(0)} ({percent})% - Grade: {letterGrade}";
         }
 
         private void btnRestart_Click(object sender, EventArgs e)
