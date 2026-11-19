@@ -20,7 +20,8 @@ namespace COMP1115Lesson8Thu
         public Form1()
         {
             InitializeComponent();
-            LoadQuestions();            
+            LoadQuestions();
+
         }
 
         /// <summary>
@@ -101,7 +102,7 @@ namespace COMP1115Lesson8Thu
             {
                 return "D";
             }
-            else 
+            else
             {
                 return "F";
             }
@@ -156,7 +157,7 @@ namespace COMP1115Lesson8Thu
             }
             else
             {
-               ShowMessage("Incorrect", Color.Red);
+                ShowMessage("Incorrect", Color.Red);
             }
 
             // move to next question
@@ -233,6 +234,34 @@ namespace COMP1115Lesson8Thu
                 btnTheme.ForeColor = Color.White;
                 isDark = true;
             }
+        }
+
+        private void btnSetTimeLimit_Click(object sender, EventArgs e)
+        {
+            // ensure time limit is numeric.  alternative to try / catch
+            // int.TryParse tries to convert a string to an int
+            // if it fails, this returns false
+            // if it succeeds, this returns true and gives an output of an int after the conversion
+            if (int.TryParse(txtTimeLimit.Text, out int timeLimit) == false)
+            {
+                ShowMessage("Invalid Time Limit", Color.Red);
+                txtTimeLimit.Focus();
+            }
+            else
+            {
+                // timeLimit must be > 0
+                if (timeLimit < 1)
+                {
+                    ShowMessage("Invalid Time Limit", Color.Red);
+                    txtTimeLimit.Focus();
+                }
+                else
+                {
+                    lblTimeLimit.Text = $"Time Limit: {timeLimit}";
+                    ShowMessage("", Color.Black);
+                }              
+            }
+
         }
     }
 }
